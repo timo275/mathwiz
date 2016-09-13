@@ -1,0 +1,197 @@
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+
+\usetikzlibrary{automata,positioning}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ (\hmwkClassInstructor\ \hmwkClassTime): \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} is complete.}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+\newcommand{\hmwkTitle}{A Walkthrough}
+\newcommand{\hmwkDueDate}{Friday, June 20}
+\newcommand{\hmwkClass}{Probability Theory}
+\newcommand{\hmwkClassTime}{}
+\newcommand{\hmwkClassInstructor}{Prepared by Tim}
+\newcommand{\hmwkAuthorName}{Mathfiz.com}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at 3:10pm}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+    \vspace{3in}}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+
+\begin{homeworkProblem}
+You meet a man one day who says to you, "I have two children and one is a son born on a Tuesday." What is the probability that the other child is a son? \\
+
+	\textbf{Solution} \\
+Note that this problem is a rather infamous problem in probability theory known frequently as the "Tuesday Birthday Problem." 
+At first hearing this problem, many people instinctually think the answer is $1/2$. However, this is incorrect. Many people think this because they assume that the information about the first child being a son born on a Tuesday is unnecessary information.
+First let us consider the probability space associated with having two sons. For simplicity, let us order the siblings (first child, second child):
+\begin{center}(daughter, daughter) \\
+	(daughter, son) \\
+	(son, daughter) \\
+	(son, son)
+\end{center} \\
+
+With the assumption that all 4 of these combinations of siblings happen with equal probability, we see that in 3 of the 4 possible cases, one of the children is a son. Therefore we may rule out the first case; (daughter, daughter), because we know that at least 1 of the man's children is a son. This leaves 3 remaining cases, of which only 1 combination has the second child be a son. 
+So is the solution 1/3? Not so fast. In probability theory we often need to consider not only the explicit value of information pertaining to the problem, but also implied information. Looking at the man's statement again: \
+
+\begin{center} "I have two children, and one is a son born on a Tuesday." \end{center} \\
+
+We can see that this statement implies the man does not have two sons born on a Tuesday. Now we need to use the conditional probability formula: 
+\begin{center} \[ \scalebox{1.2}{ $P(A | B) = \frac{P(A \cap B)}{P(B)}$} \] \\
+Event A: Second child is a son  \\              
+Event B: First child is a son born on Tuesday
+\end{center} \\
+
+First let us find the probability of event B. In the cases (daughter, son) and (son, daughter), we have an identical event- the event that the son is born on a Tuesday. Assuming the probability of being born on any given day of the week is 1/7, we have that the probability of the son being born on Tuesday in each of these cases is 1/7. In the case of (son, son) however, we have more to consider. If we assume the first son is born on a Sunday, we then have 7 different possibilities for the second son: 
+
+\begin{center} (Sunday, Sunday), (Sunday, Monday), (Sunday, Tuesday) \ldots (Sunday, Saturday)
+\end{center}
+
+Notice that for each day of the week the first son is born on, there is a 1/7 probability the other son is born on Tuesday. Thus we have $7*7=49$ possible outcomes of (weekday,weekday) that can occur for the two sons weekdays of birth. Of those 49 combinations, 7 include the first son being born on Tuesday, and 7 include the second son being born on Tuesday, for a total of \
+\begin{center} $\frac{14}{49}$ \end{center} 
+However, we know from our implied information that only 1 son is born on a Tuesday, so we must omit the event for both sons born on Tuesday. So summarizing the probabilities of event B on the next page: \
+
+\begin{center}
+(son,son) \rightarrow  $$\frac{13}{49}$$ } \\
+(son,daughter) \rightarrow  $$\frac{1}{7} = \frac{7}{49}$$ \\
+(daughter, son) \rightarrow $$\frac{1}{7}  = \frac{7}{49}$$  \\
+\end{center} \\
+
+To find P(B) we sum together each of these possibilities to find 
+\begin{center} $P(B) = \frac{13}{49} + \frac{7}{49} + \frac{7}{49} = \frac{27}{49}$ \end{center}
+
+Now that we have found $P(B)$, we can easily find $P(A \cap B)$;  the probability the second child is a boy \textbf{and} the first child is a son born on a Tuesday. This intersection is found by looking at the probabilities for event B and choosing the one that coincides with event A. This means we look at the case of (son, son), 
+
+\begin{center} $P(A \cap B) = \frac{13}{49}$ \end{center} \\
+
+Finally, we apply these probabilities to the formula for conditional probability \
+
+\begin{center} $P(A | B) = \frac{P(A \cap B)}{P(B)} = \frac{13/49}{27/49} = \frac{13}{27}$ \end{center}
+
+Thus the answer to our question, "What is the probability that the other child is also a son?" is $\frac{13}{27}$. 
+
+\end{HomeworkProblem}
+
+\end{document}
